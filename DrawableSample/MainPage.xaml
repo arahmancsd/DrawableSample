@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:n="clr-namespace:DrawableSample"
+             x:DataType="n:MainPageViewModel"
+             Padding="12"
+             x:Class="DrawableSample.MainPage">
+
+    <ContentPage.Resources>
+        <DataTemplate x:Key="ItemTemplate"
+                      x:DataType="n:Person">
+            <VerticalStackLayout Spacing="5">
+
+                <Label Text="{Binding Id}"
+                       FontSize="Micro"
+                       HorizontalOptions="Center" />
+
+                <n:VerticalProgressLine 
+                                             Max="5"
+                                             HorizontalOptions="Center"
+                                             Progress="{Binding Id}"
+                                             StrokeWidth="5"
+                                             HeightRequest="50"
+                                             BaseColor="Silver"
+                                             ProgressColor="{StaticResource Primary}" />
+            </VerticalStackLayout>
+
+        </DataTemplate>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto, 200,200, *" RowSpacing="20">
+
+        <VerticalStackLayout Spacing="6">
+            <Label Text="Drawable Sample" HorizontalOptions="Center" FontAttributes="Bold"/>
+            <Label Text="Remove the drawable n:VerticalProgressLine HorizontalOptions and it works in iOS and Windows, but it doesn't draw in center"/>
+            <Label Text="Works fine in Android only"/>
+        </VerticalStackLayout>
+
+        <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Bindable Layout draws Thicker line" 
+                       LineBreakMode="WordWrap"/>
+
+                <Label 
+                   FontSize="Medium"
+                   FontAttributes="Bold"
+                   Text="Progress" />
+            </VerticalStackLayout>
+
+            <ScrollView Grid.Column="1"
+                                HorizontalOptions="End"
+                                Orientation="Horizontal">
+                <HorizontalStackLayout Spacing="10"
+                                               BindableLayout.ItemsSource="{Binding People}"
+                                               BindableLayout.ItemTemplate="{StaticResource ItemTemplate}" />
+            </ScrollView>
+        </Grid>
+
+        <Grid Grid.Row="2" ColumnDefinitions="Auto,*">
+            <VerticalStackLayout Spacing="5">
+                <Label Text="CollectionView is drawing Thiner line"/>
+
+                <Label 
+                   FontSize="Medium"
+                   FontAttributes="Bold"
+                   Text="Progress" />
+            </VerticalStackLayout>
+
+            <CollectionView Grid.Column="1" HorizontalOptions="End"
+                ItemsSource="{Binding People}"
+                ItemTemplate="{StaticResource ItemTemplate}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal"
+                           ItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+        </Grid>
+    </Grid>
+
+</ContentPage>
